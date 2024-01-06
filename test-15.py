@@ -1,21 +1,28 @@
 import matplotlib.pyplot as plt
+from random_walk import RandomWalk
 
-x_values = range(0, 5000)
-y_values = [x**3 for x in x_values]
+# Keep making new walks, as long as the program is active.
+while True:
+    # Make a random walk.
+    rw = RandomWalk()
+    rw.fill_walk()
 
-plt.style.use("seaborn-v0_8-whitegrid")
-fig, ax = plt.subplots()
-ax.scatter(x_values, y_values, c=y_values, cmap=plt.cm.plasma_r, s=10)
+    # Plot the points in the walk.
+    plt.style.use("classic")
+    fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
+    point_numbers = range(rw.num_points)
+    ax.plot(rw.x_values, rw.y_values, linewidth=1)
 
-# 设置图表标题并给坐标轴加上标签。
-# ax.set_title("Square Numbers", fontsize=24)
-# ax.set_xlabel("Value", fontsize=14)
-# ax.set_ylabel("Square of Value", fontsize=14)
-# 设置刻度标记的大小。
-# ax.tick_params(axis='both', which='major', labelsize=14)
+    # Emphasize the first and last points.
+    ax.scatter(0, 0, c="green", edgecolors="none", s=100)
+    ax.scatter(rw.x_values[-1], rw.y_values[-1], c="red", edgecolors="none", s=100)
 
-# 设置每个坐标轴的取值范围。
-# ax.axis([0, 1100, 0, 1100000])
+    # Remove the axes.
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
 
+    plt.show()
 
-plt.show()
+    keep_running = input("Make another walk? (y/n): ")
+    if keep_running == "n":
+        break
